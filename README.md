@@ -40,6 +40,30 @@ The optimized approach takes advantage of the sorted nature of the input data. B
 5. Calculate intersections based on the count obtained from the modified binary search.
 6. Remove the ending point "e_x" from the `SortedSet`.
 
+### Count Intersections Algorithm
+
+```python
+def count_intersections(chords):
+    ds = SortedSet()  # Data Structure that we will be using to implement in O(nlogn)
+    intersections = 0
+
+    for i in range(len(chords)):
+
+        chord = chords[i]
+        category, label = chord[0],chord[1]
+
+        if category == "S" or category == "s":  # if "s", then add it in set
+            ds.add(label)
+        else:
+            # If "e", then count how many elements in the set are greater than the label. 
+            # For example, if ds = {1, 2, 3, 4}, and label = 2, then the output will be 2 (len({3, 4})).
+            intersections += elements_greater_than(ds,label)  # This is key to converting the algorithm from O(n^2) to O(nlogn).
+            ds.remove(label)
+
+    return intersections
+```
+
+
 ## Time Complexity
 
 The time complexity analysis is crucial for understanding the efficiency of the algorithm. The optimized approach's time complexity is O(n log n), a significant improvement over the brute force approach.
